@@ -1,0 +1,228 @@
+/* ==================== BEM: REGISTRO CONTAINER ==================== */
+.registro-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  padding: 20px;
+}
+
+/* ==================== BEM: REGISTRO CARD ==================== */
+.registro-card {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 50px;
+  max-width: 450px;
+  width: 100%;
+  animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -------- BEM: REGISTRO HEADER -------- */
+.registro-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.registro-header__icon {
+  color: #0052a3;
+  flex-shrink: 0;
+}
+
+.registro-card h1 {
+  color: #1a1a2e;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.registro-card p {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 30px;
+  font-size: 14px;
+}
+
+/* -------- BEM: FORM GROUP -------- */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #1a1a2e;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: white;
+  color: #1a1a2e;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0052a3;
+  box-shadow: 0 0 0 4px #e6f2ff;
+}
+
+.form-group input:disabled {
+  background-color: #f5f6f8;
+  cursor: not-allowed;
+  color: #6b7280;
+}
+
+.form-group input.input-error {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 4px #fff0f0;
+}
+
+.form-group input.input-error:focus {
+  border-color: #d32f2f;
+  box-shadow: 0 0 0 4px #fff0f0;
+}
+
+.form-group__error-message {
+  display: block;
+  color: #d32f2f;
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* ========== BEM: ACTION BUTTONS ========== */
+.btn-primary,
+.btn-registro {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 82, 163, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:hover:not(:disabled),
+.btn-registro:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 82, 163, 0.4);
+}
+
+.btn-primary:disabled,
+.btn-registro:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary__icon,
+.btn-registro__icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ==================== BEM: ALERT COMPONENT ==================== */
+.alert {
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+  border-left: 4px solid;
+  font-size: 14px;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alert--error {
+  background-color: #fff0f0;
+  color: #d32f2f;
+  border-left-color: #d32f2f;
+}
+
+.alert--success {
+  background-color: #f0faf5;
+  color: #00a86b;
+  border-left-color: #00a86b;
+}
+
+/* ==================== BEM: LINK SECTIONS ==================== */
+.link-text {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.link-text a {
+  color: #0052a3;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.link-text a:hover {
+  color: #003d7a;
+  text-decoration: underline;
+}
+
+.login-link {
+  text-align: center;
+  color: #6b7280;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #0052a3;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.login-link a:hover {
+  color: #003d7a;
+  text-decoration: underline;
+}

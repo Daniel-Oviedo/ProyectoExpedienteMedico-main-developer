@@ -1,0 +1,309 @@
+/* ==================== BEM: DASHBOARD CONTAINER ==================== */
+.dashboard-container {
+  min-height: 100vh;
+  background: #f5f6f8;
+}
+
+/* ==================== BEM: DASHBOARD HEADER ==================== */
+.dashboard-header {
+  background: linear-gradient(135deg, #0052a3 0%, #003d7a 100%);
+  color: white;
+  padding: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.dashboard-header__content {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* -------- BEM: ROLE BADGE COMPONENT -------- */
+.role-badge {
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+}
+
+.role-badge--paciente {
+  background: rgba(0, 168, 107, 0.3);
+  border: 1px solid rgba(0, 168, 107, 0.5);
+}
+
+.role-badge--enfermera {
+  background: rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+}
+
+.role-badge--medica {
+  background: rgba(168, 85, 247, 0.3);
+  border: 1px solid rgba(168, 85, 247, 0.5);
+}
+
+/* -------- BEM: LOGOUT BUTTON -------- */
+.btn-logout {
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ==================== BEM: DASHBOARD CONTENT ==================== */
+.dashboard-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ==================== BEM: PROFILE CARD ==================== */
+.profile-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.profile-card__header {
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-card__icon {
+  color: #000000;
+  flex-shrink: 0;
+}
+
+.profile-card__header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* -------- BEM: PROFILE INFO SECTION -------- */
+.profile-card__info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-item__label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-item__value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+/* ==================== BEM: MENU SECTION ==================== */
+.menu-section {
+  margin-bottom: 40px;
+}
+
+.menu-section__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* -------- BEM: MENU GRID -------- */
+.menu-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* -------- BEM: MENU CARD ITEM COMPONENT -------- */
+.menu-card-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  font-family: inherit;
+}
+
+.menu-card-item:hover {
+  background: #f5f6f8;
+  border-color: #0052a3;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateX(4px);
+}
+
+.menu-card-item__icon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #e6f2ff, #0052a3);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.menu-card-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.menu-card-item__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.menu-card-item__subtitle {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.menu-card-item__arrow {
+  font-size: 28px;
+  color: #0052a3;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.menu-card-item:hover .menu-card-item__arrow {
+  transform: translateX(4px);
+  color: #003d7a;
+}
+
+/* ==================== BACKWARD COMPATIBILITY ==================== */
+/* Legacy class names - map to BEM equivalents */
+.section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-icon {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #e6f2ff, #0052a3);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.card-arrow {
+  font-size: 28px;
+  color: #0052a3;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .dashboard-header__content {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-logout {
+    width: 100%;
+    text-align: center;
+  }
+
+  .profile-info {
+    grid-template-columns: 1fr;
+  }
+}

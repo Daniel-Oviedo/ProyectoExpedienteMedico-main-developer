@@ -1,0 +1,212 @@
+package com.manager.expedientemedico.service;
+
+import com.manager.expedientemedico.dto.RegistroMedicoRequestDTO;
+import com.manager.expedientemedico.dto.RegistroMedicoResponseDTO;
+import com.manager.expedientemedico.dto.RegistroDiagnosticoDTO;
+import com.manager.expedientemedico.exception.OperacionNoPermitidaException;
+import com.manager.expedientemedico.exception.RecursoNoEncontradoException;
+import com.manager.expedientemedico.model.Expediente;
+import com.manager.expedientemedico.model.RegistroMedico;
+import com.manager.expedientemedico.model.Usuario;
+import com.manager.expedientemedico.repository.ExpedienteRepository;
+import com.manager.expedientemedico.repository.RegistroMedicoRepository;
+import com.manager.expedientemedico.repository.UsuarioRepository;
+import com.manager.expedientemedico.security.SecurityUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class RegistroMedicoService {
+
+    private final RegistroMedicoRepository registroRepository;
+    private final ExpedienteRepository expedienteRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public RegistroMedicoService(
+            RegistroMedicoRepository registroRepository,
+            ExpedienteRepository expedienteRepository,
+            UsuarioRepository usuarioRepository
+    ) {
+        this.registroRepository = registroRepository;
+        this.expedienteRepository = expedienteRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
+
+    public RegistroMedicoResponseDTO crear(RegistroMedicoRequestDTO dto) {
+
+        Expediente expediente = expedienteRepository.findById(dto.getExpedienteId())
+                .orElseThrow(() ->
+                        new RecursoNoEncontradoException("Expediente no encontrado"));
+
+        String email = SecurityUtils.getEmailUsuarioActual();
+
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RecursoNoEncontradoException("Usuario autenticado no encontrado"));
+
+        String rol = SecurityUtils.getRolUsuarioActual();
+
+        
+        if (rol.equals("ROLE_PACIENTE")) {
+            throw new OperacionNoPermitidaException(
+                    "El paciente no puede crear registros médicos"
+            );
+        }
+
+        RegistroMedico registro = new RegistroMedico();
+        registro.setExpediente(expediente);
+        registro.setUsuario(usuario);
+        registro.setObservaciones(dto.getObservaciones());
+
+        
+        if (rol.equals("ROLE_ENFERMERA")) {
+
+            registro.setPresionArterial(dto.getPresionArterial());
+            registro.setPeso(dto.getPeso());
+            registro.setAltura(dto.getAltura());
+            registro.setTemperatura(dto.getTemperatura());
+            registro.setSaturacionOxigeno(dto.getSaturacionOxigeno());
+
+            registro.setDiagnostico(null);
+            registro.setMedicamentos(null);
+        }
+
+        
+        else if (rol.equals("ROLE_MEDICA")) {
+
+            registro.setDiagnostico(dto.getDiagnostico());
+            registro.setMedicamentos(dto.getMedicamentos());
+
+            registro.setPresionArterial(null);
+            registro.setPeso(null);
+            registro.setAltura(null);
+        }
+
+        RegistroMedico guardado = registroRepository.save(registro);
+
+        RegistroMedicoResponseDTO response = new RegistroMedicoResponseDTO();
+        response.setId(guardado.getId());
+        response.setFechaRegistro(guardado.getFechaRegistro());
+        response.setObservaciones(guardado.getObservaciones());
+        response.setDiagnostico(guardado.getDiagnostico());
+        response.setMedicamentos(guardado.getMedicamentos());
+        response.setPresionArterial(guardado.getPresionArterial());
+        response.setPeso(guardado.getPeso());
+        response.setAltura(guardado.getAltura());
+        response.setTemperatura(guardado.getTemperatura());
+        response.setSaturacionOxigeno(guardado.getSaturacionOxigeno());
+        response.setExpedienteId(expediente.getId());
+        response.setUsuarioId(usuario.getId());
+
+        return response;
+    }
+
+    public List<RegistroMedicoResponseDTO> listarPorExpediente(Long expedienteId) {
+
+        return registroRepository.findByExpedienteId(expedienteId)
+                .stream()
+                .map(registro -> {
+                    RegistroMedicoResponseDTO dto = new RegistroMedicoResponseDTO();
+                    dto.setId(registro.getId());
+                    dto.setFechaRegistro(registro.getFechaRegistro());
+                    dto.setObservaciones(registro.getObservaciones());
+                    dto.setDiagnostico(registro.getDiagnostico());
+                    dto.setMedicamentos(registro.getMedicamentos());
+                    dto.setPlanSeguimiento(registro.getPlanSeguimiento());
+                    dto.setHistoriaClinica(registro.getHistoriaClinica());
+                    dto.setPresionArterial(registro.getPresionArterial());
+                    dto.setPeso(registro.getPeso());
+                    dto.setAltura(registro.getAltura());
+                    dto.setTemperatura(registro.getTemperatura());
+                    dto.setSaturacionOxigeno(registro.getSaturacionOxigeno());
+                    dto.setExpedienteId(registro.getExpediente().getId());
+                    dto.setUsuarioId(registro.getUsuario().getId());
+                    return dto;
+                })
+                .toList();
+    }
+
+    @Transactional
+    public RegistroMedicoResponseDTO registrarDiagnostico(RegistroDiagnosticoDTO dto) {
+        
+        Expediente expediente = expedienteRepository.findById(dto.getExpedienteId())
+                .orElseThrow(() -> new RecursoNoEncontradoException("Expediente no encontrado"));
+
+        String email = SecurityUtils.getEmailUsuarioActual();
+        Usuario medica = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Médica no encontrada"));
+
+       
+        RegistroMedico registro = new RegistroMedico();
+        registro.setExpediente(expediente);
+        registro.setUsuario(medica);
+        registro.setDiagnostico(dto.getDiagnostico());
+        registro.setMedicamentos(dto.getMedicamentos());
+        registro.setPlanSeguimiento(dto.getPlanSeguimiento());
+        registro.setHistoriaClinica(dto.getHistoriaClinica());
+
+        RegistroMedico guardado = registroRepository.save(registro);
+        
+        // Actualizar estado del expediente a COMPLETADO
+        expediente.setEstado("COMPLETADO");
+        expedienteRepository.save(expediente);
+
+        RegistroMedicoResponseDTO response = new RegistroMedicoResponseDTO();
+        response.setId(guardado.getId());
+        response.setFechaRegistro(guardado.getFechaRegistro());
+        response.setObservaciones(guardado.getObservaciones());
+        response.setDiagnostico(guardado.getDiagnostico());
+        response.setMedicamentos(guardado.getMedicamentos());
+        response.setPlanSeguimiento(guardado.getPlanSeguimiento());
+        response.setHistoriaClinica(guardado.getHistoriaClinica());
+        response.setExpedienteId(expediente.getId());
+        response.setUsuarioId(medica.getId());
+
+        return response;
+    }
+
+    @Transactional
+    public RegistroMedicoResponseDTO actualizarInfoConsulta(Long registroId, RegistroMedicoRequestDTO dto) {
+        
+        String rol = SecurityUtils.getRolUsuarioActual();
+        if (!rol.equals("ROLE_MEDICA")) {
+            throw new OperacionNoPermitidaException("Solo las médicas pueden actualizar la información de la consulta");
+        }
+
+        RegistroMedico registro = registroRepository.findById(registroId)
+                .orElseThrow(() -> new RecursoNoEncontradoException("Registro no encontrado"));
+
+        if (registro.getDiagnostico() != null) {
+            throw new OperacionNoPermitidaException("No se puede actualizar un registro que ya tiene diagnóstico");
+        }
+
+        registro.setObservaciones(dto.getObservaciones());
+        registro.setPresionArterial(dto.getPresionArterial());
+        registro.setPeso(dto.getPeso());
+        registro.setAltura(dto.getAltura());
+        registro.setTemperatura(dto.getTemperatura());
+        registro.setSaturacionOxigeno(dto.getSaturacionOxigeno());
+
+        RegistroMedico actualizado = registroRepository.save(registro);
+
+        RegistroMedicoResponseDTO response = new RegistroMedicoResponseDTO();
+        response.setId(actualizado.getId());
+        response.setFechaRegistro(actualizado.getFechaRegistro());
+        response.setObservaciones(actualizado.getObservaciones());
+        response.setDiagnostico(actualizado.getDiagnostico());
+        response.setMedicamentos(actualizado.getMedicamentos());
+        response.setPlanSeguimiento(actualizado.getPlanSeguimiento());
+        response.setHistoriaClinica(actualizado.getHistoriaClinica());
+        response.setPresionArterial(actualizado.getPresionArterial());
+        response.setPeso(actualizado.getPeso());
+        response.setAltura(actualizado.getAltura());
+        response.setTemperatura(actualizado.getTemperatura());
+        response.setSaturacionOxigeno(actualizado.getSaturacionOxigeno());
+        response.setExpedienteId(actualizado.getExpediente().getId());
+        response.setUsuarioId(actualizado.getUsuario().getId());
+
+        return response;
+    }
+}
