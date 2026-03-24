@@ -207,18 +207,21 @@ export function EnfermeraPage() {
             />
           </Card>
         ) : (
-          <Card title="Registrar Signos Vitales">
-            <RegistrarVitales
-              usuario={usuarioEncontrado}
-              formData={formData}
-              onInputChange={handleInputChange}
-              onSubmit={handleRegistrar}
-              onBack={handleVolver}
-              loading={loading}
-              error={alertType === 'error' ? alertMessage : null}
-              success={alertType === 'success' ? alertMessage : null}
-            />
-          </Card>
+          <>
+            <h2 className="enfermera-section-title">Registrar Signos Vitales</h2>
+            <Card>
+              <RegistrarVitales
+                usuario={usuarioEncontrado}
+                formData={formData}
+                onInputChange={handleInputChange}
+                onSubmit={handleRegistrar}
+                onBack={handleVolver}
+                loading={loading}
+                error={alertType === 'error' ? alertMessage : null}
+                success={alertType === 'success' ? alertMessage : null}
+              />
+            </Card>
+          </>
         )}
       </div>
     </div>

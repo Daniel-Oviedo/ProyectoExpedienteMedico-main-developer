@@ -1,7 +1,7 @@
 export function RegistrarVitales({ usuario, formData, onInputChange, onSubmit, onBack, loading, error, success }) {
   return (
     <form onSubmit={onSubmit} className="form-registrar">
-      <h2>Paso 2: Completar Datos del Paciente</h2>
+      <h5>Datos del Paciente</h5>
       
       {usuario && (
         <div className="usuario-info">
@@ -23,7 +23,6 @@ export function RegistrarVitales({ usuario, formData, onInputChange, onSubmit, o
       )}
 
       <div className="form-section">
-        <h3>Datos del Paciente</h3>
         <div className="form-group">
           <label htmlFor="fechaNacimiento">Fecha de Nacimiento: <span className="required">*</span></label>
           <input
