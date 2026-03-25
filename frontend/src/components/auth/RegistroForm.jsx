@@ -72,7 +72,6 @@ export function RegistroForm({ formData, onInputChange, onSubmit, loading, error
       <div className="auth-card">
         <div className="auth-header">
           <h1>Crear cuenta</h1>
-          <p>Para tu historial médico</p>
         </div>
         
         {error && <div className="alert alert-error">{error}</div>}

@@ -198,7 +198,7 @@ export function EnfermeraPage() {
         )}
 
         {step === 1 ? (
-          <Card title="Buscar Paciente">
+          <Card>
             <BuscarPaciente 
               cedula={cedula}
               onCedulaChange={setCedula}
