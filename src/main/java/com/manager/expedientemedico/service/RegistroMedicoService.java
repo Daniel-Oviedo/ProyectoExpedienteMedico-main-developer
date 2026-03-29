@@ -105,7 +105,7 @@ public class RegistroMedicoService {
 
     public List<RegistroMedicoResponseDTO> listarPorExpediente(Long expedienteId) {
 
-        return registroRepository.findByExpedienteId(expedienteId)
+        return registroRepository.findByExpedienteIdOrderByFechaRegistroDesc(expedienteId)
                 .stream()
                 .map(registro -> {
                     RegistroMedicoResponseDTO dto = new RegistroMedicoResponseDTO();

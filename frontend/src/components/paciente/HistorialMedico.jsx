@@ -107,18 +107,21 @@ export function HistorialMedico({ registros }) {
         : 'Sin fecha'
       
       if (!agrupados[fecha]) {
-        agrupados[fecha] = []
+        agrupados[fecha] = {
+          registros: [],
+          fechaReal: registro.fechaRegistro
+        }
       }
-      agrupados[fecha].push(registro)
+      agrupados[fecha].registros.push(registro)
     })
 
     return Object.entries(agrupados)
-      .sort((a, b) => new Date(b[0]) - new Date(a[0]))
-      .map(([fecha, regs], idx) => ({
+      .sort((a, b) => new Date(b[1].fechaReal) - new Date(a[1].fechaReal))
+      .map(([fecha, data], idx) => ({
         id: idx,
         numero: idx + 1,
         fecha,
-        registros: regs
+        registros: data.registros
       }))
   }
 

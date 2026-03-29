@@ -71,7 +71,7 @@ public class PacienteService {
             if (expediente.isPresent()) {
                 // Solo mostrar si el estado es PENDIENTE
                 if ("PENDIENTE".equals(expediente.get().getEstado())) {
-                    List<RegistroMedico> registros = registroMedicoRepository.findByExpedienteId(expediente.get().getId());
+                    List<RegistroMedico> registros = registroMedicoRepository.findByExpedienteIdOrderByFechaRegistroDesc(expediente.get().getId());
                     // Retorna verdadero si hay al menos UN registro sin diagnóstico (signos vitales registrados)
                     return registros.stream().anyMatch(r -> (r.getDiagnostico() == null || r.getDiagnostico().isEmpty()) && r.getPresionArterial() != null);
                 }
