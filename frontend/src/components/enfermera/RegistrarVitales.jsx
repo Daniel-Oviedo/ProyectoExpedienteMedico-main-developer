@@ -47,8 +47,14 @@ export function RegistrarVitales({ usuario, formData, onInputChange, onSubmit, o
             id="presionArterial"
             name="presionArterial"
             value={formData.presionArterial}
-            onChange={onInputChange}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^0-9/]/g, '');
+              onInputChange({ target: { name: 'presionArterial', value } });
+            }}
             placeholder="120/80"
+            inputMode="numeric"
+            pattern="[0-9]+/[0-9]+"
+            title="Formato: 120/80 (solo números)"
             required
             disabled={loading}
           />
