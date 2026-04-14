@@ -89,7 +89,7 @@ public class ExpedienteService {
         
         if (pacienteOpt.isEmpty()) {
             throw new RecursoNoEncontradoException(
-                    "No hay un perfil de paciente asociado al usuario. Será creado cuando la enfermera te registre."
+                    "Su expediente médico aún no ha sido registrado. Por favor, contacte con personal de enfermería para iniciar el proceso."
             );
         }
         
