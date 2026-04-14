@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_BASE_URL = 'http://localhost:8080'
+const API_BASE_URL = 'https://expedientemedico-production.up.railway.app'
 
 // Crear instancia de axios
 const api = axios.create({
