@@ -58,10 +58,15 @@ public class RestablecimientoContrasenService {
         TokenRestablecimientoContrasena token = new TokenRestablecimientoContrasena(codigo, usuario, dto.getEmail(), expiracion);
         tokenRepository.save(token);
 
-        // Enviar email con el código
-        enviarEmailCodigo(usuario, codigo);
+        // Intentar enviar email, pero no fallar si no se puede
+        try {
+            enviarEmailCodigo(usuario, codigo);
+        } catch (Exception e) {
+            System.err.println("No se pudo enviar email, pero el código fue generado: " + codigo);
+        }
 
-        return new RespuestaRestablecimientoDTO(true, "Código enviado a tu correo");
+        // Devolver el código en la respuesta para mostrar en pantalla (uso temporal)
+        return new RespuestaRestablecimientoDTO(true, "Código enviado a tu correo. Usa el código a continuación:", codigo);
     }
 
     @Transactional

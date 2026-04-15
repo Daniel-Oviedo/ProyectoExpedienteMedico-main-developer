@@ -485,3 +485,91 @@ form {
     color: #9ca3af;
   }
 }
+
+/* ESTILOS PARA MOSTRAR CÓDIGO DE RECUPERACIÓN */
+.codigo-display {
+  background: linear-gradient(135deg, #e6f2ff 0%, #f0f7ff 100%);
+  border: 2px solid #0052a3;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.codigo-display .info-text {
+  color: #003d7a;
+  font-size: 14px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.codigo-box {
+  background: white;
+  border: 2px dashed #0052a3;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.codigo-grande {
+  font-size: 32px;
+  font-weight: 900;
+  color: #0052a3;
+  letter-spacing: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.btn-copy {
+  background: #0052a3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-copy:hover {
+  background: #003d7a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 82, 163, 0.3);
+}
+
+.btn-copy:active {
+  transform: translateY(0);
+}
+
+/* Dark mode para código display */
+@media (prefers-color-scheme: dark) {
+  .codigo-display {
+    background: linear-gradient(135deg, #1a3a52 0%, #0f2438 100%);
+    border-color: #3b82f6;
+  }
+
+  .codigo-display .info-text {
+    color: #93c5fd;
+  }
+
+  .codigo-box {
+    background: #111827;
+    border-color: #3b82f6;
+  }
+
+  .codigo-grande {
+    color: #3b82f6;
+  }
+
+  .btn-copy {
+    background: #3b82f6;
+  }
+
+  .btn-copy:hover {
+    background: #2563eb;
+  }
+}
