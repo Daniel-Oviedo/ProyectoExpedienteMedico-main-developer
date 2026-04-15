@@ -27,7 +27,7 @@ public class RestablecimientoContrasenService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private JavaMailSender mailSender;
 
     @Autowired
@@ -133,6 +133,11 @@ public class RestablecimientoContrasenService {
 
     // Método auxiliar para enviar email
     private void enviarEmailCodigo(Usuario usuario, String codigo) {
+        if (mailSender == null) {
+            System.err.println("JavaMailSender no está disponible, email no será enviado");
+            return;
+        }
+        
         try {
             SimpleMailMessage mensaje = new SimpleMailMessage();
             mensaje.setTo(usuario.getEmail());
@@ -148,5 +153,6 @@ public class RestablecimientoContrasenService {
             // Log pero no falla la operación, el usuario puede reintentar
             System.err.println("Error enviando email: " + e.getMessage());
         }
+    }
     }
 }
