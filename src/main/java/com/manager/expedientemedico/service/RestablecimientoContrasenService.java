@@ -130,7 +130,7 @@ public class RestablecimientoContrasenService {
 
     // Método auxiliar para enviar email de forma asincrónica
     @Async
-    private void enviarEmailCodigo(Usuario usuario, String codigo) {
+    public void enviarEmailCodigo(Usuario usuario, String codigo) {
         if (mailSender == null) {
             System.err.println("JavaMailSender no está disponible, email no será enviado");
             return;
@@ -153,6 +153,6 @@ public class RestablecimientoContrasenService {
             System.err.println("Error enviando email a " + usuario.getEmail() + ": " + e.getMessage());
         }
     }
-    }
+}
     
 
