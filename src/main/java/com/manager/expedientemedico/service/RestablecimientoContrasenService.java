@@ -7,9 +7,6 @@ import com.manager.expedientemedico.model.Usuario;
 import com.manager.expedientemedico.repository.TokenRestablecimientoRepository;
 import com.manager.expedientemedico.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +24,6 @@ public class RestablecimientoContrasenService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-
-    @Autowired(required = false)
-    private JavaMailSender mailSender;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -59,11 +53,9 @@ public class RestablecimientoContrasenService {
         TokenRestablecimientoContrasena token = new TokenRestablecimientoContrasena(codigo, usuario, dto.getEmail(), expiracion);
         tokenRepository.save(token);
 
-        // Enviar email de forma asincrónica (sin bloquear la respuesta)
-        enviarEmailCodigo(usuario, codigo);
-
-        // Devolver el código en la respuesta para mostrar en pantalla (uso temporal)
-        return new RespuestaRestablecimientoDTO(true, "Código enviado a tu correo. Usa el código a continuación:", codigo);
+        // El código se muestra directamente en pantalla (sin enviar email)
+        // Devolver el código en la respuesta para mostrar en pantalla
+        return new RespuestaRestablecimientoDTO(true, "Código generado. Úsalo para recuperar tu contraseña:", codigo);
     }
 
     @Transactional
@@ -126,32 +118,6 @@ public class RestablecimientoContrasenService {
         tokenRepository.save(token);
 
         return new RespuestaRestablecimientoDTO(true, "Contraseña actualizada correctamente");
-    }
-
-    // Método auxiliar para enviar email de forma asincrónica
-    @Async
-    public void enviarEmailCodigo(Usuario usuario, String codigo) {
-        if (mailSender == null) {
-            System.err.println("JavaMailSender no está disponible, email no será enviado");
-            return;
-        }
-        
-        try {
-            SimpleMailMessage mensaje = new SimpleMailMessage();
-            mensaje.setTo(usuario.getEmail());
-            mensaje.setSubject("Código de recuperación de contraseña - Expediente Médico");
-            mensaje.setText("Hola " + usuario.getNombre() + ",\n\n" +
-                    "Tu código de recuperación es: " + codigo + "\n" +
-                    "Este código expira en " + MINUTOS_EXPIRACION + " minutos.\n\n" +
-                    "Si no solicitaste este cambio, ignora este correo.\n\n" +
-                    "Saludos,\nEquipo Expediente Médico");
-            
-            mailSender.send(mensaje);
-            System.out.println("Email enviado exitosamente a: " + usuario.getEmail());
-        } catch (Exception e) {
-            // Log pero no falla la operación
-            System.err.println("Error enviando email a " + usuario.getEmail() + ": " + e.getMessage());
-        }
     }
 }
     
