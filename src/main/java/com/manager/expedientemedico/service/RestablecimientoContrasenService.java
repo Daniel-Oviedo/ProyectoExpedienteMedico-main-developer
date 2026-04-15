@@ -9,6 +9,7 @@ import com.manager.expedientemedico.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,12 +59,8 @@ public class RestablecimientoContrasenService {
         TokenRestablecimientoContrasena token = new TokenRestablecimientoContrasena(codigo, usuario, dto.getEmail(), expiracion);
         tokenRepository.save(token);
 
-        // Intentar enviar email, pero no fallar si no se puede
-        try {
-            enviarEmailCodigo(usuario, codigo);
-        } catch (Exception e) {
-            System.err.println("No se pudo enviar email, pero el código fue generado: " + codigo);
-        }
+        // Enviar email de forma asincrónica (sin bloquear la respuesta)
+        enviarEmailCodigo(usuario, codigo);
 
         // Devolver el código en la respuesta para mostrar en pantalla (uso temporal)
         return new RespuestaRestablecimientoDTO(true, "Código enviado a tu correo. Usa el código a continuación:", codigo);
@@ -131,7 +128,8 @@ public class RestablecimientoContrasenService {
         return new RespuestaRestablecimientoDTO(true, "Contraseña actualizada correctamente");
     }
 
-    // Método auxiliar para enviar email
+    // Método auxiliar para enviar email de forma asincrónica
+    @Async
     private void enviarEmailCodigo(Usuario usuario, String codigo) {
         if (mailSender == null) {
             System.err.println("JavaMailSender no está disponible, email no será enviado");
@@ -149,10 +147,12 @@ public class RestablecimientoContrasenService {
                     "Saludos,\nEquipo Expediente Médico");
             
             mailSender.send(mensaje);
+            System.out.println("Email enviado exitosamente a: " + usuario.getEmail());
         } catch (Exception e) {
-            // Log pero no falla la operación, el usuario puede reintentar
-            System.err.println("Error enviando email: " + e.getMessage());
+            // Log pero no falla la operación
+            System.err.println("Error enviando email a " + usuario.getEmail() + ": " + e.getMessage());
         }
     }
     }
+    
 
