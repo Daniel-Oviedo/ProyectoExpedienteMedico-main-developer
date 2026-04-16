@@ -342,6 +342,29 @@ form {
   text-decoration: underline;
 }
 
+/* BOTÓN ESTILO LINK */
+.link-button {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  font-family: inherit;
+}
+
+.link-button:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+.link-button:active {
+  opacity: 0.8;
+}
+
 /* GRUPO DE BOTONES - ATRÁS/SIGUIENTE */
 .button-group {
   display: grid;

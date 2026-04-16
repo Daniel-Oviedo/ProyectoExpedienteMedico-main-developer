@@ -253,7 +253,13 @@ export function FormularioOlvideContrasena() {
 
         <div className="auth-footer">
           <p>
-            ¿Recuerdas tu contraseña? <a href="/login">Inicia sesión aquí</a>
+            ¿Recuerdas tu contraseña? <button 
+              type="button" 
+              onClick={() => navigate('/login')} 
+              className="link-button"
+            >
+              Inicia sesión aquí
+            </button>
           </p>
         </div>
       </div>
