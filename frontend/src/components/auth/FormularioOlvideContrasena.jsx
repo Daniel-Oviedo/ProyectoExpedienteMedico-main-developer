@@ -8,7 +8,6 @@ export function FormularioOlvideContrasena() {
   const [paso, setPaso] = useState(1) // Paso 1, 2 o 3
   const [email, setEmail] = useState('')
   const [codigo, setCodigo] = useState('')
-  const [codigoGenerado, setCodigoGenerado] = useState('') // Código mostrado en pantalla
   const [nuevaPassword, setNuevaPassword] = useState('')
   const [confirmarPassword, setConfirmarPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -24,7 +23,6 @@ export function FormularioOlvideContrasena() {
 
     try {
       const respuesta = await servicioOlvideContrasena.olvidarContrasena({ email })
-      setCodigoGenerado(respuesta.token || '') // Captura el código de la respuesta
       setMessage(respuesta.mensaje)
       setTimeout(() => {
         setMessage('')
@@ -156,22 +154,6 @@ export function FormularioOlvideContrasena() {
         {/* PASO 2: Código */}
         {paso === 2 && (
           <form onSubmit={manejarPaso2}>
-            {codigoGenerado && (
-              <div className="codigo-display">
-                <p className="info-text">Tu código de recuperación:</p>
-                <div className="codigo-box">
-                  <span className="codigo-grande">{codigoGenerado}</span>
-                  <button 
-                    type="button"
-                    onClick={() => navigator.clipboard.writeText(codigoGenerado)}
-                    className="btn-copy"
-                  >
-                    Copiar
-                  </button>
-                </div>
-                <p className="info-text">Este código expira en 15 minutos</p>
-              </div>
-            )}
             <div className="form-group">
               <label htmlFor="codigo">Código de Verificación</label>
               <input
@@ -185,7 +167,7 @@ export function FormularioOlvideContrasena() {
                 disabled={loading}
                 autoComplete="off"
               />
-              <p className="info-text">Ingresa el código que ves arriba (o que recibiste por email)</p>
+              <p className="info-text">Ingresa el código que recibiste por email</p>
             </div>
             <div className="button-group">
               <button 
