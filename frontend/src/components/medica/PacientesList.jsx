@@ -10,7 +10,7 @@ export function PacientesList({ expedientes, loading, onSelectHistorial, onBack 
       </div>
       
       {loading ? (
-        <p className="loading">⏳ Cargando...</p>
+        <p className="loading">Cargando...</p>
       ) : expedientes.length === 0 ? (
         <p className="no-data">No hay pacientes disponibles</p>
       ) : (
